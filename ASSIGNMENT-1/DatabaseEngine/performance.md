@@ -1,6 +1,6 @@
 The clients which are running and the time taken for execution in seconds.
 
-|----------------|-------------------|
+| ---------------- | ------------------- |
 
 | only client A | 3.688 s |
 
