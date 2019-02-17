@@ -36,10 +36,10 @@ int main (int argc, char **argv)
         exit (1);
     }
 
-    printf ("Server: Hello, World!\n");
+    printf ("Server: Hello, This is Server!\n");
 
     while (1) {
-        // read an incoming message
+        // reading an incoming message
         if (msgrcv (qid, &message, sizeof (struct message_text), 0, 0) == -1) {
             perror ("msgrcv");
             exit (1);
@@ -47,9 +47,9 @@ int main (int argc, char **argv)
 
         printf ("Server: message received.\n");
 
-        // process message
+        // processing the message
         
-	//int length = strlen (message.message_text.buf);
+	
         char buff [20];
         strcpy(buff,message.message_text.buf);
         
@@ -63,14 +63,7 @@ int main (int argc, char **argv)
          buff[c] = buff[c] - 32;  
       c++;  
    }
-   
-  // printf("The case changed string is: %s\n", buff);
-
-
-
-
-
-
+  
 
 	strcpy (message.message_text.buf, buff);
 	int client_qid = message.message_text.qid;
