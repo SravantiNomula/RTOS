@@ -9,4 +9,4 @@ $ > /tmp/mqueue_server_key   (in the server process terminal)
 
 $ ./server 
 
-$ ./client <file name>  eg: ./clientA fileA.dat 
+$ ./client file name  eg: ./clientA fileA.dat 
