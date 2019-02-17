@@ -73,7 +73,7 @@ int main (int argc, char **argv)
         // process return message from server
         printf ("Message received from server: %s\n\n", return_message.message_text.buf);  
 
-        printf ("Please type a message: ");
+        
     
     // remove message queue
     if (msgctl (myqid, IPC_RMID, NULL) == -1) 
