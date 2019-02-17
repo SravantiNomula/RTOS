@@ -4,7 +4,7 @@ $ gcc server.c -o server
 
 $ gcc client.c -o client
 
-$ > /tmp/mqueue_server_key
+$ > /tmp/mqueue_server_key (in the server process terminal)
 
 $ ./server
 
