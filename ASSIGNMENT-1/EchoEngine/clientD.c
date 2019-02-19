@@ -22,8 +22,7 @@ struct message {
 int main (int argc, char **argv)
 {
     clock_t t;
-    double time_taken=((double)t)/CLOCKS_PER_SEC;
-    key_t server_queue_key;
+      key_t server_queue_key;
     int server_qid, myqid;
     struct message my_message, return_message;
 
@@ -67,6 +66,7 @@ int main (int argc, char **argv)
             exit (1);
         }
     t=clock()-t;
+   double time_taken=((double)t)/CLOCKS_PER_SEC;    
         // process return message from server
         printf ("Message received from server: %s\n\n", return_message.message_text.buf);  
 
