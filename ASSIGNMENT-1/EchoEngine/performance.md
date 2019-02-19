@@ -2,14 +2,16 @@
 
 The clients which are running and the time taken for execution in seconds.
 
+|Clients active  |    time taken     |
+
 |----------------|-------------------|
 
-|  only client A |       5.171  s    |
+|A|1|
 
-|  clientA,B     |       10.011 s    |
+|A,B|2|
 
-|  client A,B,C  |       14.411 s    |
+|A,B,C|3|
 
-| client A,B,C,D  |      19.550  s   |      
+|A,B,C,D|4|      
 
-| client A,B,C,D,E|2      2.795   s  |
+|A,B,C,D,E|5|
