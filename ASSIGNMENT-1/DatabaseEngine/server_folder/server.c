@@ -1,105 +1,91 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <fcntl.h>
 
 #define SERVER_KEY_PATHNAME "/tmp/mqueue_server_key"
 #define PROJECT_ID 'M'
-#define QUEUE_PERMISSIONS 0660
 
-struct message_text {
-    int qid;
-    char buf [200];
-};
+struct message_text
+	 {
+    		int qid;
+    		char buf [200];
+	};
 
-struct message {
-    long message_type;
-    struct message_text message_text;
-};
+struct message 
+	{
+    		long message_type;
+    		struct message_text message_text;
+	};
 
 int main (int argc, char **argv)
 {
-	FILE *inFile;
-	char filename[20];
-	char buffer[100];
-    key_t msg_queue_key;
-    int qid;
-    struct message message;
 
-    if ((msg_queue_key = ftok (SERVER_KEY_PATHNAME, PROJECT_ID)) == -1) 
+	
+    clock_t t;
+    	
+    char filename[20];
+    key_t server_queue_key;
+    int server_qid, myqid;
+    struct message my_message, return_message;
+
+    // create my client queue for receiving messages from server
+    if ((myqid = msgget (IPC_PRIVATE, 0660)) == -1)
+    {
+        perror ("msgget: myqid");
+        exit (1);
+    }
+
+    if ((server_queue_key = ftok (SERVER_KEY_PATHNAME, PROJECT_ID)) == -1) 
     {
         perror ("ftok");
         exit (1);
     }
 
-    if ((qid = msgget (msg_queue_key, IPC_CREAT | QUEUE_PERMISSIONS)) == -1) 
+    if ((server_qid = msgget (server_queue_key, 0)) == -1) 
     {
-        perror ("msgget");
+        perror ("msgget: server_qid");
         exit (1);
     }
 
-    printf ("Server: Hello, this is server!\n");
+    my_message.message_type = 1;
+    my_message.message_text.qid = myqid;
 
-    while (1) 
-{
-        // read an incoming message
-        if (msgrcv (qid, &message, sizeof (struct message_text), 0, 0) == -1)
+   strcpy(filename,argv[1]);
+   strcpy(my_message.message_text.buf,filename);	
+
+        t=clock();
+	// send message to server
+        if (msgsnd (server_qid, &my_message, sizeof (struct message_text), 0) == -1)
 	 {
-            perror ("msgrcv");
+            perror ("client: msgsnd");
             exit (1);
         }
 
-        printf ("Server: message received.\n");
-
-       
-
-	strcpy(filename,message.message_text.buf);
-
-
-  //Opeining input file, throw an error if invalid file
-    inFile = fopen(filename, "r");
-    if(inFile == NULL)
-    {
-        printf("Unable to open File = %s\n", filename);
-        return 1;
-    }
-    //Copy input characters into msg.buffer, loops breaks when EOF is reached
-    int i = 0;
-	while(1)
+        // read response from server
+        if (msgrcv (myqid, &return_message, sizeof (struct message_text), 0, 0) == -1) 
 	{
-        	buffer[i] = fgetc(inFile);
-        	if(buffer[i]==EOF)
-		{
-           	 	buffer[i] = '\0';
-            		break;
-        	}
-        	i++;
-     	}
-
-strcpy(message.message_text.buf,buffer);
-
-	
-
-       
-        int client_qid = message.message_text.qid;
-        message.message_text.qid = qid;
-
-        // send reply message to client
-        if (msgsnd (client_qid, &message, sizeof (struct message_text), 0) == -1)
-	 {  
-            perror ("msgget");
+            perror ("client: msgrcv");
             exit (1);
         }
+	t=clock()-t;
+	double time_taken=((double)t)/CLOCKS_PER_SEC;
+        // process return message from server
+        printf ("Message received from server: %s\n\n", return_message.message_text.buf);  
+	printf ("\n %f sec taken ",time_taken);
+        
+    
+    // remove message queue
+    if (msgctl (myqid, IPC_RMID, NULL) == -1) 
+    {
+            perror ("client: msgctl");
+            exit (1);
+    }
 
-        printf("Server: response sent to client.\n");
+    printf ("Client: bye\n");
 
-
-
-}
+    exit (0);
 }
