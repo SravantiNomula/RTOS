@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <time.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
@@ -21,6 +21,8 @@ struct message {
 
 int main (int argc, char **argv)
 {
+    clock_t t;
+    double time_taken=((double)t)/CLOCKS_PER_SEC;
     key_t server_queue_key;
     int server_qid, myqid;
     struct message my_message, return_message;
@@ -52,6 +54,7 @@ int main (int argc, char **argv)
         if (my_message.message_text.buf [length - 1] == '\n')
            my_message.message_text.buf [length - 1] = '\0';
 
+        t=clock();
         // send message to server
         if (msgsnd (server_qid, &my_message, sizeof (struct message_text), 0) == -1) {
             perror ("client: msgsnd");
@@ -63,11 +66,11 @@ int main (int argc, char **argv)
             perror ("client: msgrcv");
             exit (1);
         }
-
+    t=clock()-t;
         // process return message from server
         printf ("Message received from server: %s\n\n", return_message.message_text.buf);  
 
-        printf ("Please type a message: ");
+        printf ("\n %s sec taken ",time_taken ");
     }
     // remove message queue
     if (msgctl (myqid, IPC_RMID, NULL) == -1) {
