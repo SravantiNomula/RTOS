@@ -4,7 +4,7 @@
 
 1.Firstly execute the server program   ./server
 
-2.Secondly execute the client1 program followed by the ip address     ./c1 Ip address
+2.Secondly execute the client1 program followed by the ip address     ./c1 Ip address  eg: ./c1 127.0.0.1
 
 3.Enter the file name requested  when asked  f1.dat
 
