@@ -35,38 +35,13 @@ int main(){
 		exit(1);
 	}
 	printf("[+]Connected to Server.\n");
-
-		{
-		//printf("Client: \t");
-		//scanf("%s", &buffer[0]);
-		//
-		//t=clock();
-
-		//send(clientSocket, buffer, strlen(buffer), 0);
-
-		/*if(strcmp(buffer, ":exit") == 0){
-			close(clientSocket);
-			printf("[-]Disconnected from server.\n");
-			exit(1);
-		}
-*/
-		n=recv(clientSocket, buffer, sizeof(buffer), 0); 
-			
-
-			// t=clock()-t;
-
-			//double time_taken=((double)t)/CLOCKS_PER_SEC; 
-
-			buffer[n]='\0';
-			printf("Server: \t%s\n", buffer);
-
-			//printf ("\n %f sec taken ",time_taken);
-
 		
+		
+n=recv(clientSocket, buffer, sizeof(buffer), 0);
 
-
-
-	}
+					buffer[n]='\0';
+			printf("Server: \t%s\n", buffer);
+				
 
 	return 0;
 }
