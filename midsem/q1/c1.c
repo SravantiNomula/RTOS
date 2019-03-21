@@ -12,7 +12,7 @@
 
 int main(){
 	//clock_t t;
-
+	int n;
 	int clientSocket, ret;
 	struct sockaddr_in serverAddr;
 	char buffer[1024];
@@ -50,19 +50,19 @@ int main(){
 			exit(1);
 		}
 */
-		if(recv(clientSocket, buffer, 1024, 0) < 0){
-			printf("[-]Error in receiving data.\n");
-		}else{
+		n=recv(clientSocket, buffer, sizeof(buffer), 0) 
+			
 
 			// t=clock()-t;
 
 			//double time_taken=((double)t)/CLOCKS_PER_SEC; 
 
+			buffer[n]='\0';
 			printf("Server: \t%s\n", buffer);
 
 			//printf ("\n %f sec taken ",time_taken);
 
-		}
+		
 
 
 
