@@ -141,23 +141,17 @@ else
 		fclose(fp4);
 		fclose(fp5);
 
-
-
 				if(strcmp(file_buffer, ":exit") == 0){
 					printf("Disconnected from %s:%d\n", inet_ntoa(newAddr.sin_addr), ntohs(newAddr.sin_port));
 					break;
 				}else{
-					
-
-			
-
-					//printf("Client: %s\n", file_buffer);
+					printf("Client: %s\n", file_buffer);
 						
 
 					
 					send(newSocket,file_buffer,strlen(file_buffer),0);
 					bzero(file_buffer, sizeof(file_buffer));
-
+					break;
 
 	
 					
@@ -172,4 +166,3 @@ else
 
 	return 0;
 }
-
