@@ -41,7 +41,30 @@ n=recv(clientSocket, buffer, sizeof(buffer), 0);
 
 					buffer[n]='\0';
 			printf("Server: \t%s\n", buffer);
-				
+	
+
+
+
+
+FILE *fp;
+int i;
+
+/*
+fp=fopen("parameters.csv","w+");
+
+fprintf(fp,"parameter1,parameter2,parameter3,parameter4,parameter5 \n");
+
+fclose(fp);
+*/
+
+fp=fopen("parameters.csv","a+");
+
+
+fprintf(fp,buffer);
+
+fprintf(fp,"\n");
+fclose(fp);
+	
 
 	return 0;
 }
