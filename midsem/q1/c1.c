@@ -50,7 +50,7 @@ int main(){
 			exit(1);
 		}
 */
-		n=recv(clientSocket, buffer, sizeof(buffer), 0) 
+		n=recv(clientSocket, buffer, sizeof(buffer), 0); 
 			
 
 			// t=clock()-t;
